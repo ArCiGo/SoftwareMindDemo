@@ -31,10 +31,7 @@ export class RegisterPage {
         await this.page.getByRole('button', { name: 'Register' }).click();
     }
 
-    /**
-     * ToDO: Create a method to get the successful alert when a user is created
-     */
-    async sample() {
+    async registerSuccessBanner() {
         return await this.page.locator('#register-alert').textContent();
     }
 }

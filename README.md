@@ -19,34 +19,36 @@ The following project was made using TS + Playwright. Review [here](./docs/Autom
 SoftwareMindDemo/
 ├── .github/
 │   └── workflows/
-│       └── playwright.yml         # CI/CD GitHub Actions workflow
+│       └── playwright.yml                # CI/CD GitHub Actions workflow
 ├── constants/
-│   └── Messages.ts                # Application constant messages & error texts
+│   └── Messages.ts                       # Application constant messages & error texts
 ├── data/
-│   └── dataGenerators.ts          # Dynamic test data generators (Faker / Random)
+│   └── dataGenerators.ts                 # Dynamic test data generators (Faker / Random)
 ├── docs/
-│   └── Automation_QA_Engineer_.pdf # Assessment requirements & guidelines
+│   └── Automation_QA_Engineer_.pdf       # Assessment requirements & guidelines
 ├── enums/
-│   └── CategoryOptions.ts         # Enum for product category options
+│   └── CategoryOptions.ts                # Enum for product category options
 ├── models/
-│   ├── IProduct.ts                # TypeScript interface for Product entity
-│   └── IUser.ts                   # TypeScript interface for User credentials entity
+│   ├── IProduct.ts                       # TypeScript interface for Product entity
+│   └── IUser.ts                          # TypeScript interface for User credentials entity
 ├── page-objects/
-│   ├── DashboardPage.ts           # POM for Dashboard & Product Management CRUD
-│   ├── LoginPage.ts               # POM for Sign In & Authentication flows
-│   └── RegisterPage.ts            # POM for User Registration flow
+│   ├── DashboardPage.ts                  # POM for Dashboard & Product Management CRUD
+│   ├── LoginPage.ts                      # POM for Sign‑In & Authentication flows
+│   ├── RegisterPage.ts                   # POM for User Registration flow
+│   └── shared/
+│       └── components/
+│           └── Toasts.ts                 # Re‑usable toast‑notification component
 ├── tests/
 │   └── UI/
-│       ├── dashboard.spec.ts      # Product Management tests (Create, Filter, Delete)
-│       ├── login.spec.ts          # Sign In tests (Positive & Negative flows)
-│       └── registration.spec.ts   # User Registration tests (Happy Path)
-├── .env.template                  # Template for required environment variables
-├── .gitignore                     # Git ignore rules (node_modules, reports, .env)
-├── package.json                   # Project dependencies and test run scripts
-├── playwright.config.ts           # Playwright runner, reporter & browser settings
-├── README.md                      # Project documentation and setup guide
-└── tsconfig.json                  # TypeScript compiler configuration
-
+│       ├── dashboard.spec.ts             # Product‑Management tests (Create, Filter, Delete)
+│       ├── login.spec.ts                 # Sign‑In tests (Positive & Negative flows)
+│       └── registration.spec.ts          # User‑Registration tests (Happy Path)
+├── .env.template                         # Template for required environment variables
+├── .gitignore                            # Ignores node_modules, reports, .env, etc.
+├── package.json                          # Project dependencies & test scripts
+├── playwright.config.ts                  # Playwright runner, reporters & browser config
+├── README.md                             # Project documentation and setup guide
+└── tsconfig.json                         # TypeScript compiler configuration
 ```
 
 ## Setup ⚙️.

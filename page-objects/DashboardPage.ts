@@ -1,10 +1,16 @@
 import { Page } from '@playwright/test';
 import { IProduct } from '../models/IProduct';
 import { CategoryOptions } from '../enums/CategoryOptions';
+import { Toasts } from './shared/components/Toasts';
 
 export class DashboardPage {
+    // Objects, variables and constants
+    private readonly _toasts: Toasts;
+
     // Constructor
-    constructor(public readonly page: Page) { }
+    constructor(public readonly page: Page) {
+        this._toasts = new Toasts(page);
+    }
 
     // Actions
     async headerIsLoaded() {
@@ -37,20 +43,12 @@ export class DashboardPage {
     }
 
     async isSuccessToastVisible() {
-        try {
-            await this.page.locator('#toast-container .toast.success')
-                .waitFor({ state: 'visible', timeout: 5000 });
-            
-            return true;
-        } catch {
-            return false;
-        }
+        return await this._toasts.isSuccessToastVisible();
     }
 
     async getSuccessToastMessage() {
-        return await this.page.locator('#toast-container .toast-message').textContent();
+        return await this._toasts.getSuccessToastMessage();
     }
-
 
     async filterByCategory(category: CategoryOptions) {
         await this.page.locator('#category-filter').selectOption(category);

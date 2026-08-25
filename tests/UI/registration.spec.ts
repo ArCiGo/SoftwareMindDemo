@@ -32,7 +32,7 @@ test.describe('Registration', () => {
         });
 
         await test.step('STEP 3: The user should be redirected to the Login page and log in with its created credentials', async () => {
-            expect(await registerPage.sample()).toContain(RegistrationMessages.REGISTRATION_SUCCESSFUL);
+            expect(await registerPage.registerSuccessBanner()).toContain(RegistrationMessages.REGISTRATION_SUCCESSFUL);
 
             await expect(async() => {
                 await page.waitForURL('**/login.html', { timeout: 5000 });
