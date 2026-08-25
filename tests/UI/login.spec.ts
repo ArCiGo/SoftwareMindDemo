@@ -1,0 +1,76 @@
+import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../page-objects/LoginPage';
+import { DashboardPage } from '../../page-objects/DashboardPage';
+
+let loginPage: LoginPage;
+let dashboardPage: DashboardPage;
+
+test.beforeEach(async ({ page }) => {
+    page.on('console', msg => console.log('Console log:', msg.text()));
+});
+
+test.describe('Sign in', () => {
+    test('The user can sign in into the platform using valid credentials', async ({ page }) => {
+        loginPage = new LoginPage(page);
+        dashboardPage = new DashboardPage(page);
+        
+        await test.step('STEP 1: Navigate to the Login page', async () => {
+            await loginPage.goTo();
+        });
+
+        await test.step('STEP 2: Fill the login form with valid credentials', async () => {
+            await loginPage.loginForm(process.env.VALID_USERNAME as string, process.env.VALID_PASSWORD as string, true);
+
+            const [isVisible, toastText] = await Promise.all([
+                loginPage.isSuccessToastVisible(),
+                loginPage.getSuccessToastMessage(),
+                loginPage.clickOnSignInButton()
+            ]);
+
+            expect(isVisible).toBeTruthy();
+            expect(toastText).toContain('Login successful! Redirecting...');
+        });
+
+        await test.step('STEP 3: Verify the user is redirected to the Dashboard page', async () => {
+            await expect(async() => {
+				await page.waitForURL('**/index.html', { timeout: 5000 });
+				expect(await dashboardPage.headerIsLoaded()).toBeTruthy();
+			}).toPass({
+				timeout: 3600
+			});
+        });
+    });
+
+    test('The user can\'t sign in using invalid credentials', async ({ page }) => {
+        loginPage = new LoginPage(page);
+
+        await test.step('STEP 1: Navigate to the Login page', async () => {
+            await loginPage.goTo();
+        });
+
+        await test.step('STEP 2: Fill the login form with invalid credentials', async () => {
+            await loginPage.loginForm(process.env.INVALID_USERNAME as string, process.env.INVALID_PASSWORD as string, true);
+            await loginPage.clickOnSignInButton();
+        });
+
+        await test.step('STEP 3: Verify the error message is displayed', async () => {
+            expect(await loginPage.errorMessageWhenCredentialsAreInvalid()).toBe('Invalid username or password');
+        });
+    });
+
+    test('The user can\'t sign in if he/she lefts the form empty', async ({ page }) => {
+        loginPage = new LoginPage(page);
+
+        await test.step('STEP 1: Navigate to the Login page', async () => {
+            await loginPage.goTo();
+        });
+
+        await test.step('STEP 2: Fill the login form with invalid credentials', async () => {
+            await loginPage.loginForm('', '', false);
+            await loginPage.clickOnSignInButton();
+
+            expect((await loginPage.errorMessagesWhenFormIsEmpty()).usernameError).toBe('Username is required');
+            expect((await loginPage.errorMessagesWhenFormIsEmpty()).passwordError).toBe('Password is required');
+        });
+    });
+});
