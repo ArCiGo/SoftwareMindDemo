@@ -3,6 +3,7 @@ import { LoginPage } from '../../page-objects/LoginPage';
 import { DashboardPage } from '../../page-objects/DashboardPage';
 import { RegisterPage } from '../../page-objects/RegisterPage';
 import { generateUser } from '../../data/dataGenerators';
+import { RegistrationMessages } from '../../constants/Messages';
 
 let loginPage: LoginPage;
 let dashboardPage: DashboardPage;
@@ -31,7 +32,7 @@ test.describe('Registration', () => {
         });
 
         await test.step('STEP 3: The user should be redirected to the Login page and log in with its created credentials', async () => {
-            expect(await registerPage.sample()).toContain('Registration successful! Redirecting to login...');
+            expect(await registerPage.sample()).toContain(RegistrationMessages.REGISTRATION_SUCCESSFUL);
 
             await expect(async() => {
                 await page.waitForURL('**/login.html', { timeout: 5000 });

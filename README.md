@@ -16,7 +16,37 @@ The following project was made using TS + Playwright. Review [here](./docs/Autom
 ## Main project structure 🗂️.
 
 ```bash
-TBD...
+SoftwareMindDemo/
+├── .github/
+│   └── workflows/
+│       └── playwright.yml         # CI/CD GitHub Actions workflow
+├── constants/
+│   └── Messages.ts                # Application constant messages & error texts
+├── data/
+│   └── dataGenerators.ts          # Dynamic test data generators (Faker / Random)
+├── docs/
+│   └── Automation_QA_Engineer_.pdf # Assessment requirements & guidelines
+├── enums/
+│   └── CategoryOptions.ts         # Enum for product category options
+├── models/
+│   ├── IProduct.ts                # TypeScript interface for Product entity
+│   └── IUser.ts                   # TypeScript interface for User credentials entity
+├── page-objects/
+│   ├── DashboardPage.ts           # POM for Dashboard & Product Management CRUD
+│   ├── LoginPage.ts               # POM for Sign In & Authentication flows
+│   └── RegisterPage.ts            # POM for User Registration flow
+├── tests/
+│   └── UI/
+│       ├── dashboard.spec.ts      # Product Management tests (Create, Filter, Delete)
+│       ├── login.spec.ts          # Sign In tests (Positive & Negative flows)
+│       └── registration.spec.ts   # User Registration tests (Happy Path)
+├── .env.template                  # Template for required environment variables
+├── .gitignore                     # Git ignore rules (node_modules, reports, .env)
+├── package.json                   # Project dependencies and test run scripts
+├── playwright.config.ts           # Playwright runner, reporter & browser settings
+├── README.md                      # Project documentation and setup guide
+└── tsconfig.json                  # TypeScript compiler configuration
+
 ```
 
 ## Setup ⚙️.
@@ -35,6 +65,8 @@ TBD...
 
 ## Executing the tests ⚡️.
 
+Before running the tests, do not forget to create a `.env` file based on the template file `.env.template`.
+
 ```bash
 # If you want to execute the tests using the Playwright GUI, you can execute the following command.-
 > npm run test:open:ui
@@ -50,4 +82,10 @@ If you want to open the report after the tests have been executed, you can execu
 
 ## CI/CD 🔄.
 
-TBD...
+The CI/CD pipeline is configured using **GitHub Actions**. The pipeline is triggered when a push or pull request is made to the main or master branch. The pipeline will execute the tests and generates a report. The report is uploaded as an artifact.
+
+This step can be found in the `.github/workflows/playwright.yml` file.
+
+> **N. B.!**
+> 
+> Do not forget to update the repository secrets in GitHub Actions repository settings if you are going to update the env variables.
