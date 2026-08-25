@@ -15,9 +15,9 @@ jobs:
         node-version: lts/*
     - name: Create .env file
       env:
-        ENV: ${{ secrets.env }}
+        ENV_VARS: ${{ secrets.ENV_VARS }}
       run: |
-        echo "${ENV}" | base64 --decode > .env
+        echo "${ENV_VARS}" | base64 --decode > .env
         ls -la
     - name: Install dependencies
       run: npm ci
