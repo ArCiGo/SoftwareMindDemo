@@ -20,10 +20,10 @@ export function generateProductData(overrides?: Partial<IProduct>): IProduct {
     return {
         name: `Automation ${faker.commerce.productName()} ${randomID}`,
         sku: `SKU-${randomID}`,
-        price: '1500',
+        price: faker.commerce.price({min:1000,max:9999}),
         category: CategoryOptions.Electronics,
         inStock: true,
-        description: 'Automation test product description',
+        description: faker.commerce.productDescription(),
         ...overrides,
     };
 }
