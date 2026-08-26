@@ -21,20 +21,15 @@ test.describe('Sign in', () => {
     test('The user can sign in into the platform using valid credentials', async ({ page }) => {
         await test.step('STEP 2: Fill the login form with valid credentials', async () => {
             await loginPage.loginForm(process.env.VALID_USERNAME as string, process.env.VALID_PASSWORD as string, true);
+            await loginPage.clickOnSignInButton()
 
-            const [isVisible, toastText] = await Promise.all([
-                loginPage.isSuccessToastVisible(),
-                loginPage.getSuccessToastMessage(),
-                loginPage.clickOnSignInButton()
-            ]);
-
-            expect(isVisible).toBeTruthy();
+            const toastText = await loginPage.getSuccessToastMessage();
             expect(toastText).toContain(SignInMessages.LOGIN_SUCCESSFUL);
         });
 
         await test.step('STEP 3: Verify the user is redirected to the Dashboard page', async () => {
-            await expect(async() => {
-				await page.waitForURL('**/index.html', { timeout: 5000 });
+            await expect(async () => {
+                await page.waitForURL('**/index.html', { timeout: 5000 });
 				expect(await dashboardPage.headerIsLoaded()).toBeTruthy();
 			}).toPass({
 				timeout: 3600

@@ -9,14 +9,26 @@ export class Toasts {
         try {
             await this.page.locator('#toast-container .toast.success')
                 .waitFor({ state: 'visible', timeout: 5000 });
-            
+
             return true;
         } catch {
             return false;
         }
     }
 
-    async getSuccessToastMessage() {
+    async getSuccessToastMessage(timeout = 5000) {
+        await this.page
+            .locator('#toast-container .toast.success')
+            .waitFor({ state: 'visible', timeout });
+
         return await this.page.locator('#toast-container .toast-message').textContent();
+    }
+
+    // Wait until any success toast is hidden (or not present)
+    async waitForSuccessToastGone(timeout = 5000) {
+        await this.page
+            .locator('#toast-container .toast.success')
+            .waitFor({ state: 'hidden', timeout })
+            .catch(() => { });
     }
 }

@@ -27,7 +27,7 @@ test.describe('Product Management', () => {
         });
 
         await test.step('STEP 3: Verify the user is redirected to the Dashboard page', async () => {
-            await expect(async() => {
+            await expect(async () => {
                 await page.waitForURL('**/index.html', { timeout: 5000 });
                 expect(await dashboardPage.headerIsLoaded()).toBeTruthy();
             }).toPass({
@@ -37,14 +37,9 @@ test.describe('Product Management', () => {
 
         await test.step('STEP 4: The user can create a new product', async () => {
             await dashboardPage.addProductForm(newProduct);
+            await dashboardPage.clickOnSaveButton();
 
-            const [isVisible, toastText] = await Promise.all([
-                dashboardPage.isSuccessToastVisible(),
-                dashboardPage.getSuccessToastMessage(),
-                dashboardPage.clickOnSaveButton()
-            ]);
-            
-            expect(isVisible).toBeTruthy();
+            const toastText = await dashboardPage.getSuccessToastMessage();
             expect(toastText).toBe(`Product "${newProduct.name}" created successfully`);
         });
 
@@ -57,7 +52,7 @@ test.describe('Product Management', () => {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             })}`;
-            
+
             await expect(card.cardDetails).toBeVisible();
             await expect(card.name).toHaveText(newProduct.name);
             await expect(card.sku).toHaveText(newProduct.sku);
@@ -69,6 +64,9 @@ test.describe('Product Management', () => {
 
         await test.step('STEP 6: The user should delete the product and validate that isn\'t displayed in the table', async () => {
             await dashboardPage.deleteProduct(newProduct.name);
+
+            const toastMsg = await dashboardPage.getSuccessToastMessage();
+            expect(toastMsg).toBe(`Product "${newProduct.name}" deleted successfully`);
 
             await dashboardPage.filterByProductName(newProduct.name);
             expect((await dashboardPage.getProductDetails(newProduct.name)).cardDetails).not.toBeVisible();

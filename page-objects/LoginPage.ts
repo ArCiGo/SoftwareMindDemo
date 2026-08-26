@@ -54,10 +54,6 @@ export class LoginPage {
         await this.page.getByRole('link', { name: 'Register here' }).click();
     }
 
-    async isSuccessToastVisible() {
-        return await this._toasts.isSuccessToastVisible();
-    }
-
     async getSuccessToastMessage() {
         return await this._toasts.getSuccessToastMessage();
     }
