@@ -1,24 +1,14 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../page-objects/LoginPage';
-import { DashboardPage } from '../../page-objects/DashboardPage';
-import { RegisterPage } from '../../page-objects/RegisterPage';
+import { test, expect } from '../../page-objects/Fixtures'
 import { generateUser } from '../../data/dataGenerators';
 import { RegistrationMessages } from '../../constants/Messages';
-
-let loginPage: LoginPage;
-let dashboardPage: DashboardPage;
-let registerPage: RegisterPage;
 
 test.beforeEach(async ({ page }) => {
     page.on('console', msg => console.log('Console log:', msg.text()));
 });
 
 test.describe('Registration', () => {
-    test('The user can register into the platform and log in successfully', async ({ page }) => {
+    test('The user can register into the platform and log in successfully', async ({ page, loginPage, registerPage, dashboardPage }) => {
         const newUser = generateUser();
-        loginPage = new LoginPage(page);
-        dashboardPage = new DashboardPage(page);
-        registerPage = new RegisterPage(page);
 
         await test.step('STEP 1: Navigate to the Login page and click on \'Register here\' link', async () => {
             await loginPage.goTo();

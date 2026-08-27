@@ -8,3 +8,8 @@ export const SignInMessages = {
 export const RegistrationMessages = {
     REGISTRATION_SUCCESSFUL: 'Registration successful! Redirecting to login...'
 }
+
+export const DashboardMessages = {
+    productCreated: (name: string) => `Product "${name}" created successfully`,
+    productDeleted: (name: string) => `Product "${name}" deleted successfully`,
+};

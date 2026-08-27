@@ -1,21 +1,15 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../page-objects/LoginPage';
-import { DashboardPage } from '../../page-objects/DashboardPage';
+import { test, expect } from '../../page-objects/Fixtures'
 import { generateProductData } from '../../data/dataGenerators';
 import { CategoryOptions } from '../../enums/CategoryOptions';
-
-let loginPage: LoginPage;
-let dashboardPage: DashboardPage;
+import { DashboardMessages } from '../../constants/Messages';
 
 test.beforeEach(async ({ page }) => {
     page.on('console', msg => console.log('Console log:', msg.text()));
 });
 
 test.describe('Product Management', () => {
-    test('The user can create a new product, can find it and delete it', async ({ page }) => {
+    test('The user can create a new product, can find it and delete it', async ({ page, loginPage, dashboardPage }) => {
         const newProduct = generateProductData();
-        loginPage = new LoginPage(page);
-        dashboardPage = new DashboardPage(page);
 
         await test.step('STEP 1: Navigate to the Login page', async () => {
             await loginPage.goTo();
@@ -40,7 +34,7 @@ test.describe('Product Management', () => {
             await dashboardPage.clickOnSaveButton();
 
             const toastText = await dashboardPage.getSuccessToastMessage();
-            expect(toastText).toBe(`Product "${newProduct.name}" created successfully`);
+            expect(toastText).toBe(DashboardMessages.productCreated(newProduct.name));
         });
 
         await test.step('STEP 5: The user looks for the product and validates its data', async () => {
@@ -66,7 +60,7 @@ test.describe('Product Management', () => {
             await dashboardPage.deleteProduct(newProduct.name);
 
             const toastMsg = await dashboardPage.getSuccessToastMessage();
-            expect(toastMsg).toBe(`Product "${newProduct.name}" deleted successfully`);
+            expect(toastMsg).toBe(DashboardMessages.productDeleted(newProduct.name));
 
             await dashboardPage.filterByProductName(newProduct.name);
             expect((await dashboardPage.getProductDetails(newProduct.name)).cardDetails).not.toBeVisible();

@@ -17,11 +17,14 @@ export class Toasts {
     }
 
     async getSuccessToastMessage(timeout = 5000) {
-        await this.page
-            .locator('#toast-container .toast.success')
-            .waitFor({ state: 'visible', timeout });
+        // await this.page
+        //     .locator('#toast-container .toast.success')
+        //     .waitFor({ state: 'visible', timeout });
 
-        return await this.page.locator('#toast-container .toast-message').textContent();
+        // return await this.page.locator('#toast-container .toast-message').textContent();
+        const successToast = this.page.locator('#toast-container .toast.success');
+        await successToast.waitFor({ state: 'visible', timeout });
+        return await successToast.locator('.toast-message').textContent();
     }
 
     // Wait until any success toast is hidden (or not present)
