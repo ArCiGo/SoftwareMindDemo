@@ -1,9 +1,8 @@
-import {test, expect} from '../../page-objects/Fixtures'
+import { test, expect } from '../../fixtures/Fixtures';
 import { SignInMessages } from '../../constants/Messages';
+import { env } from '../../config/env';
 
-test.beforeEach(async ({ page, loginPage }) => {
-    page.on('console', msg => console.log('Console log:', msg.text()));
-
+test.beforeEach(async ({ loginPage }) => {
     await test.step('STEP 1: Navigate to the Login page', async () => {
         await loginPage.goTo();
     });
@@ -12,31 +11,27 @@ test.beforeEach(async ({ page, loginPage }) => {
 test.describe('Sign in', () => {
     test('The user can sign in into the platform using valid credentials', async ({ page, loginPage, dashboardPage }) => {
         await test.step('STEP 2: Fill the login form with valid credentials', async () => {
-            await loginPage.loginForm(process.env.VALID_USERNAME as string, process.env.VALID_PASSWORD as string, true);
-            await loginPage.clickOnSignInButton()
+            await loginPage.loginForm(env.validUsername, env.validPassword, true);
+            await loginPage.clickOnSignInButton();
 
             const toastText = await loginPage.getSuccessToastMessage();
             expect(toastText).toContain(SignInMessages.LOGIN_SUCCESSFUL);
         });
 
         await test.step('STEP 3: Verify the user is redirected to the Dashboard page', async () => {
-            await expect(async () => {
-                await page.waitForURL('**/index.html', { timeout: 5000 });
-				expect(await dashboardPage.headerIsLoaded()).toBeTruthy();
-			}).toPass({
-				timeout: 3600
-			});
+            await expect(page).toHaveURL(/index\.html/);
+            await expect(dashboardPage.appTitle).toBeVisible();
         });
     });
 
     test('The user can\'t sign in using invalid credentials', async ({ loginPage }) => {
         await test.step('STEP 2: Fill the login form with invalid credentials', async () => {
-            await loginPage.loginForm(process.env.INVALID_USERNAME as string, process.env.INVALID_PASSWORD as string, true);
+            await loginPage.loginForm(env.invalidUsername, env.invalidPassword, true);
             await loginPage.clickOnSignInButton();
         });
 
         await test.step('STEP 3: Verify the error message is displayed', async () => {
-            expect(await loginPage.errorMessageWhenCredentialsAreInvalid()).toBe(SignInMessages.INVALID_CREDENTIALS);
+            await expect(loginPage.invalidCredentialsAlert).toHaveText(SignInMessages.INVALID_CREDENTIALS);
         });
     });
 
@@ -45,10 +40,8 @@ test.describe('Sign in', () => {
             await loginPage.loginForm('', '', false);
             await loginPage.clickOnSignInButton();
 
-            const { usernameError, passwordError } = await loginPage.errorMessagesWhenFormIsEmpty();
-
-            expect(usernameError).toBe(SignInMessages.USERNAME_REQUIRED);
-            expect(passwordError).toBe(SignInMessages.PASSWORD_REQUIRED);
+            await expect(loginPage.usernameError).toHaveText(SignInMessages.USERNAME_REQUIRED);
+            await expect(loginPage.passwordError).toHaveText(SignInMessages.PASSWORD_REQUIRED);
         });
     });
 });
