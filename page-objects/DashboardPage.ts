@@ -30,8 +30,15 @@ export class DashboardPage {
         await this.page.getByRole('button', { name: 'Save' }).click();
     }
 
+    // get successToastMessage() {
+    //     return this.page.locator('#toast-container .toast.success .toast-message');
+    // }
     get successToastMessage() {
-        return this.page.locator('#toast-container .toast.success .toast-message');
+        return this._toasts.successToastMessage;
+    }
+
+    async getSuccessToastMessage() {
+        return this._toasts.getSuccessToastMessage();
     }
 
     async waitForSuccessToastGone() {

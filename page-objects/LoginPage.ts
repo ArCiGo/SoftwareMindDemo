@@ -48,7 +48,15 @@ export class LoginPage {
         await this.page.getByRole('link', { name: 'Register here' }).click();
     }
 
+    get successToastMessage() {
+        return this._toasts.successToastMessage;
+    }
+
     async getSuccessToastMessage() {
         return await this._toasts.getSuccessToastMessage();
+    }
+
+    async waitForSuccessToastGone(): Promise<void> {
+        return this._toasts.waitForSuccessToastGone();
     }
 }
