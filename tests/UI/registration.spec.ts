@@ -9,6 +9,7 @@ test.describe('Registration', () => {
         await test.step('STEP 1: Navigate to the Login page and click on \'Register here\' link', async () => {
             await loginPage.goTo();
             await loginPage.clickOnRegisterHereLink();
+            
             await expect(registerPage.loginTitle).toBeVisible();
         });
 
@@ -18,7 +19,6 @@ test.describe('Registration', () => {
 
         await test.step('STEP 3: The user should be redirected to the Login page and log in with its created credentials', async () => {
             await expect(registerPage.registerSuccessAlert).toContainText(RegistrationMessages.REGISTRATION_SUCCESSFUL);
-
             await expect(page).toHaveURL(/login\.html/);
             await expect(loginPage.loginTitle).toBeVisible();
 

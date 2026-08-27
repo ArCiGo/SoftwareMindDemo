@@ -14,10 +14,6 @@ export class DashboardPage {
         return this.page.locator('.app-title');
     }
 
-    get successToastMessage() {
-        return this.page.locator('#toast-container .toast.success .toast-message');
-    }
-
     async addProductForm(product: IProduct) {
         await this.page.locator('#product-name').fill(product.name);
         await this.page.locator('#product-sku').fill(product.sku);
@@ -34,20 +30,20 @@ export class DashboardPage {
         await this.page.getByRole('button', { name: 'Save' }).click();
     }
 
-    async getSuccessToastMessage() {
-        return await this._toasts.getSuccessToastMessage();
+    get successToastMessage() {
+        return this.page.locator('#toast-container .toast.success .toast-message');
     }
 
     async waitForSuccessToastGone() {
         await this._toasts.waitForSuccessToastGone();
     }
 
-    async filterByCategory(category: CategoryOptions) {
-        await this.page.locator('#category-filter').selectOption(category);
-    }
-
     async filterByProductName(productName: string) {
         await this.page.locator('#search-input').fill(productName);
+    }
+
+    async filterByCategory(category: CategoryOptions) {
+        await this.page.locator('#category-filter').selectOption(category);
     }
 
     productCard(productName: string) {

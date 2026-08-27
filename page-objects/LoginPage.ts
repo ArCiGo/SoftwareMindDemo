@@ -8,24 +8,12 @@ export class LoginPage {
         this._toasts = new Toasts(page);
     }
 
-    get loginTitle() {
-        return this.page.locator('.login-title');
-    }
-
-    get invalidCredentialsAlert() {
-        return this.page.locator('#login-alert');
-    }
-
-    get usernameError() {
-        return this.page.locator('#username-error');
-    }
-
-    get passwordError() {
-        return this.page.locator('#password-error');
-    }
-
     async goTo() {
         await this.page.goto('/login.html');
+    }
+
+    get loginTitle() {
+        return this.page.locator('.login-title');
     }
 
     async loginForm(username: string, password: string, rememberMe: boolean = false) {
@@ -42,6 +30,18 @@ export class LoginPage {
 
     async clickOnSignInButton() {
         await this.page.getByRole('button', { name: 'Sign In' }).click();
+    }
+
+    get invalidCredentialsAlert() {
+        return this.page.locator('#login-alert');
+    }
+
+    get usernameError() {
+        return this.page.locator('#username-error');
+    }
+
+    get passwordError() {
+        return this.page.locator('#password-error');
     }
 
     async clickOnRegisterHereLink() {

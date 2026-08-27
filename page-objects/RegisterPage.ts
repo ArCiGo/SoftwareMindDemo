@@ -8,10 +8,6 @@ export class RegisterPage {
         return this.page.locator('.login-title');
     }
 
-    get registerSuccessAlert() {
-        return this.page.locator('#register-alert');
-    }
-
     async goTo() {
         await this.page.goto('/register.html');
     }
@@ -30,5 +26,9 @@ export class RegisterPage {
         await this.page.locator('#reg-confirm-password').fill(user.password);
 
         await this.page.getByRole('button', { name: 'Register' }).click();
+    }
+
+    get registerSuccessAlert() {
+        return this.page.locator('#register-alert');
     }
 }
