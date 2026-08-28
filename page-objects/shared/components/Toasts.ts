@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export class Toasts {
     constructor(public readonly page: Page) { }
@@ -12,30 +12,10 @@ export class Toasts {
     }
 
     get successToastMessage() {
-        return this.successToast.locator('.toast-message');
-    }
-
-    async getSuccessToastMessage(timeout = 5000) {
-        // const successToast = this.page.locator('#toast-container .toast.success');
-        // await successToast.waitFor({ state: 'visible', timeout }); 
-        // return await successToast.locator('.toast-message').textContent();
-
-        await this.successToast.waitFor({ state: 'visible', timeout });
-        return await this.successToastMessage.textContent();
+        return this.successToast.last().locator('.toast-message');
     }
 
     async waitForSuccessToastGone(timeout = 10000) {
-        // const successToast = this.page.locator('#toast-container .toast.success');
-        // if (await successToast.isVisible()) {
-        //     await successToast.waitFor({ state: 'hidden', timeout });
-        // }
-        
-        if (await this.successToast.isVisible()) {
-            await this.successToast.waitFor({ state: 'hidden', timeout });
-        }
-    }
-
-    async dismissSuccessToastIfVisible(timeout = 10000): Promise<void> {
-        await this.waitForSuccessToastGone(timeout);
+        await expect(this.successToast).toHaveCount(0, { timeout });
     }
 }

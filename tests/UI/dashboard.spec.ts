@@ -13,7 +13,7 @@ test.describe('Product Management', () => {
             await dashboardPage.addProductForm(newProduct);
             await dashboardPage.clickOnSaveButton();
 
-            await expect(dashboardPage.successToastMessage).toHaveText(
+            await expect(dashboardPage.toasts.successToastMessage).toHaveText(
                 DashboardMessages.productCreated(newProduct.name),
             );
         });
@@ -39,7 +39,7 @@ test.describe('Product Management', () => {
         await test.step('STEP 3: The user should delete the product and validate that isn\'t displayed in the table', async () => {
             await dashboardPage.deleteProduct(newProduct.name);
 
-            await expect(dashboardPage.successToastMessage).toHaveText(
+            await expect(dashboardPage.toasts.successToastMessage).toHaveText(
                 DashboardMessages.productDeleted(newProduct.name),
             );
 

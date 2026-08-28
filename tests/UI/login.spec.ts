@@ -14,8 +14,7 @@ test.describe('Sign in', () => {
             await loginPage.loginForm(env.validUsername, env.validPassword, true);
             await loginPage.clickOnSignInButton();
 
-            const toastText = await loginPage.getSuccessToastMessage();
-            expect(toastText).toContain(SignInMessages.LOGIN_SUCCESSFUL);
+            await expect(loginPage.toasts.successToastMessage).toContainText(SignInMessages.LOGIN_SUCCESSFUL);
         });
 
         await test.step('STEP 3: Verify the user is redirected to the Dashboard page', async () => {

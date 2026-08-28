@@ -2,10 +2,10 @@ import { Page } from '@playwright/test';
 import { Toasts } from './shared/components/Toasts';
 
 export class LoginPage {
-    private readonly _toasts: Toasts;
+    readonly toasts: Toasts;
 
     constructor(public readonly page: Page) {
-        this._toasts = new Toasts(page);
+        this.toasts = new Toasts(page);
     }
 
     async goTo() {
@@ -46,17 +46,5 @@ export class LoginPage {
 
     async clickOnRegisterHereLink() {
         await this.page.getByRole('link', { name: 'Register here' }).click();
-    }
-
-    get successToastMessage() {
-        return this._toasts.successToastMessage;
-    }
-
-    async getSuccessToastMessage() {
-        return await this._toasts.getSuccessToastMessage();
-    }
-
-    async waitForSuccessToastGone(): Promise<void> {
-        return this._toasts.waitForSuccessToastGone();
     }
 }

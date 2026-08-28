@@ -4,10 +4,10 @@ import { CategoryOptions } from '../enums/CategoryOptions';
 import { Toasts } from './shared/components/Toasts';
 
 export class DashboardPage {
-    private readonly _toasts: Toasts;
+    readonly toasts: Toasts;
 
     constructor(public readonly page: Page) {
-        this._toasts = new Toasts(page);
+        this.toasts = new Toasts(page);
     }
 
     get appTitle() {
@@ -28,21 +28,6 @@ export class DashboardPage {
 
     async clickOnSaveButton() {
         await this.page.getByRole('button', { name: 'Save' }).click();
-    }
-
-    // get successToastMessage() {
-    //     return this.page.locator('#toast-container .toast.success .toast-message');
-    // }
-    get successToastMessage() {
-        return this._toasts.successToastMessage;
-    }
-
-    async getSuccessToastMessage() {
-        return this._toasts.getSuccessToastMessage();
-    }
-
-    async waitForSuccessToastGone() {
-        await this._toasts.waitForSuccessToastGone();
     }
 
     async filterByProductName(productName: string) {
@@ -74,8 +59,6 @@ export class DashboardPage {
     }
 
     async deleteProduct(productName: string) {
-        await this.waitForSuccessToastGone();
-
         const productCard = this.productCard(productName);
 
         await productCard.getByRole('button', { name: 'Delete' }).click();
