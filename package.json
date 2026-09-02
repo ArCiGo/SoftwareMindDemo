@@ -1,21 +1,30 @@
 {
   "name": "softwareminddemo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright UI automation suite for the SoftwareMind SDET assessment",
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test tests/",
     "test:open:ui": "npx playwright test --ui",
-    "test:report": "npx playwright show-report"
+    "test:report": "npx playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@faker-js/faker": "^10.6.0",
     "@playwright/test": "^1.62.1",
-    "@types/node": "^26.2.0"
+    "@types/node": "^26.2.0",
+    "eslint": "^9.39.2",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0"
   },
   "dependencies": {
     "dotenv": "^17.4.2"
